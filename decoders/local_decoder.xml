@@ -1,0 +1,28 @@
+<!-- Local Decoders -->
+
+<!--
+  Custom decoder for ufw on Ubuntu/WSL2.
+  Wazuh's built-in "ufw" decoder (0140-kernel_decoders.xml) expects the raw
+  dmesg format with a leading kernel-uptime bracket, e.g.
+    kernel: [ 3529.289825] [UFW BLOCK] IN=eth0 ...
+  journald on this system delivers kernel messages WITHOUT that uptime
+  bracket, e.g.
+    kernel: [UFW BLOCK] IN=eth0 OUT= ...
+  so the built-in decoder's prematch never matches (confirmed via
+  wazuh-logtest). This decoder matches the actual format produced here.
+-->
+<decoder name="ufw-wsl">
+   <type>firewall</type>
+   <parent>kernel</parent>
+   <prematch>^[\.*] IN=</prematch>
+   <regex>^[(UFW \.*)] \.+ SRC=(\S+) DST=(\S+)</regex>
+   <regex> \.+ PROTO=(\w+) </regex>
+   <order>action,srcip,dstip,protocol</order>
+</decoder>
+
+<decoder name="ufw-wsl">
+   <type>firewall</type>
+   <parent>kernel</parent>
+   <regex offset="after_regex">^SPT=(\d+) DPT=(\d+) </regex>
+   <order>srcport,dstport</order>
+</decoder>
