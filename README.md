@@ -16,6 +16,12 @@ A self-built, hands-on SIEM lab using [Wazuh](https://wazuh.com/) to demonstrate
 
 See [`docs/incident-report-ssh-bruteforce.md`](docs/incident-report-ssh-bruteforce.md) for the full writeup of one simulated incident, and [`docs/architecture.md`](docs/architecture.md) for how the lab is wired together.
 
+## Dashboard
+
+A custom dashboard built in OpenSearch Dashboards, showing the two custom detection rules firing on a live test attack — a data table (rule description, source IP, count) alongside a time-series chart pinpointing exactly when the attack occurred:
+
+![UFW firewall monitoring dashboard showing blocked-traffic alerts over time](docs/images/ufw-dashboard.png)
+
 ## What's in this repo
 
 | Path | What it is |
